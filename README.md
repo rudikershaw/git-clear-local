@@ -1,6 +1,17 @@
 # Clear merged in local branches
 The shell script `gitcloc` is for clearing/deleting all local branches that have been merged into another given branch.
 
+# Setup
+
+First you will have to give execution permissions to the file. In the below example `user` is your UNIX user.
+
+```bash
+$ chown user gitcloc.sh
+$ chmod u+x gitcloc.sh
+```
+
+You can now execute the script by using its full path. Alternatively you may want to set up an alias by adding `alias gitcloc /path/to/your/gitcloc.sh` to the end of your `.bashrc` (Linux) or `.bash_profile` (Mac) files.
+
 # Usage
 
 Below is the output of `gitcloc --help`
