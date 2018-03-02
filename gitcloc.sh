@@ -27,14 +27,14 @@ else
     # Redirect merged branches to tmp file for interactive editing.
     git branch --merged > $TMP_BRANCHES_FILE
     # Trim trailing/leading space, empty lines, and current branch before edit.
-    sed -i '' 's/^ *//; s/ *$//; /^$/d; /^[*]/d' $TMP_BRANCHES_FILE
+    sed -i 's/^ *//; s/ *$//; /^$/d; /^[*]/d' $TMP_BRANCHES_FILE
 
     # Check that there are merged branches to be delete before continueing.
     LINE_COUNT=$(wc -l "$TMP_BRANCHES_FILE" | sed 's/ .*//')
     if [[ $LINE_COUNT -gt 0 ]]; then
         $(git var GIT_EDITOR) $TMP_BRANCHES_FILE
         # Trim trailing/leading space, and empty lines after edit.
-        sed -i '' 's/^ *//; s/ *$//; /^$/d' $TMP_BRANCHES_FILE
+        sed -i 's/^ *//; s/ *$//; /^$/d' $TMP_BRANCHES_FILE
         # Soft delete all branches left in the file.
         set +e
         xargs git branch -d < $TMP_BRANCHES_FILE
