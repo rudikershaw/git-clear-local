@@ -16,7 +16,7 @@ if [ -z "$1" ] || [ "$#" -gt 1 ] || [[ "$@" == *"--help"* ]]; then
 else
     # Create a file to contain list of all merged branches.
     TMP_BRANCHES_FILE=$(mktemp)
-    trap "{ rm -f '$TMP_BRANCHES_FILE'; }" EXIT
+    trap '{ rm -f $TMP_BRANCHES_FILE; }' EXIT
 
     # Store current branch and switch to target branch.
     CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -32,7 +32,7 @@ else
     if [[ $LINE_COUNT -gt 0 ]]; then
         $(git var GIT_EDITOR) "$TMP_BRANCHES_FILE"
         # Trim trailing/leading space, and empty lines after edit.
-        TEMP=$(sed 's/^ *//; s/ *$//; /^$/d' $TMP_BRANCHES_FILE)
+        TEMP=$(sed 's/^ *//; s/ *$//; /^$/d' "$TMP_BRANCHES_FILE")
         echo "$TEMP" > "$TMP_BRANCHES_FILE"
         # Soft delete all branches left in the file.
         set +e
