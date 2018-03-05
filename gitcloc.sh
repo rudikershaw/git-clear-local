@@ -16,27 +16,27 @@ if [ -z "$1" ] || [ "$#" -gt 1 ] || [[ "$@" == *"--help"* ]]; then
 else
     # Create a file to contain list of all merged branches.
     TMP_BRANCHES_FILE=$(mktemp)
-    trap "{ rm -f $TMP_BRANCHES_FILE; }" EXIT
+    trap "{ rm -f '$TMP_BRANCHES_FILE'; }" EXIT
 
     # Store current branch and switch to target branch.
     CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     if [ "$CURRENT_BRANCH" != "$1" ]; then
-        git checkout $1
+        git checkout "$1"
     fi
 
     # Redirect merged branches to tmp file for interactive editing.
-    git branch --merged | sed 's/^ *//; s/ *$//; /^$/d; /^[*]/d' > $TMP_BRANCHES_FILE
+    git branch --merged | sed 's/^ *//; s/ *$//; /^$/d; /^[*]/d' > "$TMP_BRANCHES_FILE"
 
     # Check that there are merged branches to be delete before continueing.
     LINE_COUNT=$(wc -l "$TMP_BRANCHES_FILE" | sed 's/ .*//')
     if [[ $LINE_COUNT -gt 0 ]]; then
-        $(git var GIT_EDITOR) $TMP_BRANCHES_FILE
+        $(git var GIT_EDITOR) "$TMP_BRANCHES_FILE"
         # Trim trailing/leading space, and empty lines after edit.
         TEMP=$(sed 's/^ *//; s/ *$//; /^$/d' $TMP_BRANCHES_FILE)
-        echo $TEMP > $TMP_BRANCHES_FILE
+        echo "$TEMP" > "$TMP_BRANCHES_FILE"
         # Soft delete all branches left in the file.
         set +e
-        xargs git branch -d < $TMP_BRANCHES_FILE
+        xargs git branch -d < "$TMP_BRANCHES_FILE"
     else
         echo "No branches found for clearing."
     fi
@@ -44,6 +44,6 @@ else
     # Switch back to original branch if it still exists.
     set -e
     if [ "$CURRENT_BRANCH" != "$1" ]; then
-        git checkout $CURRENT_BRANCH 2> /dev/null
+        git checkout "$CURRENT_BRANCH" 2> /dev/null
     fi
 fi
