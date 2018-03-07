@@ -3,11 +3,10 @@ The shell script `gitcloc` is for clearing/deleting all local branches that have
 
 # Setup
 
-First you will have to download the script and give execution permissions to the file. In the below example `user` is your UNIX user.
+First you will have to download the script and give execution permissions to the file.
 
 ```bash
-$ curl http://bit.ly/2F8fIT3 > gitcloc.sh
-$ chown user gitcloc.sh
+$ curl https://raw.githubusercontent.com/rudikershaw/git-clear-local/master/gitcloc.sh > gitcloc.sh
 $ chmod u+x gitcloc.sh
 ```
 
