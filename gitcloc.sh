@@ -27,7 +27,7 @@ else
     # Redirect merged branches to tmp file for interactive editing.
     git branch --merged | sed 's/^ *//; s/ *$//; /^$/d; /^[*]/d' > "$TMP_BRANCHES_FILE"
 
-    # Check that there are merged branches to be delete before continueing.
+    # Check that there are merged branches to be delete before continuing.
     LINE_COUNT=$(wc -l "$TMP_BRANCHES_FILE" | awk '{print $1}')
     if [[ $LINE_COUNT -gt 0 ]]; then
         $(git var GIT_EDITOR) "$TMP_BRANCHES_FILE"
